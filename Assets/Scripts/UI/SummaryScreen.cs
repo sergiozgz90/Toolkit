@@ -45,15 +45,35 @@ namespace Pokemon.UI
 		private Text[] names, pp;
 		private Image[] types, move;
 
-		/****************************************************/
+        /****************************************************/
 
-		private int _index;
+        private int _source;
+        public int Source
+        {
+            get { return _source; }
+            set
+            {
+                _source = value;
+            }
+        }
+
+        private Pokemon[] PokemonArray;
+
+
+        private int _index;
 		public int Index
 		{
 			get { return _index; }
 			set
 			{
-				int c = Game.Data.Player.Count;
+                int c = 0;
+                if (_source == 0)
+                    PokemonArray = Game.Data.Player.Party;
+                else
+                    PokemonArray = Game.Data.Player.Box(_source-1).ArrayPokemon;
+
+                c = PokemonArray.Length;
+
 				_index = (value + c) % c;
 				if (General != null)
 				{
@@ -62,7 +82,7 @@ namespace Pokemon.UI
 					memo();
 					skills();
 					moves();
-					PokemonView.Instance.Change(Game.Data.Player[_index]);
+					PokemonView.Instance.Change(PokemonArray[_index]);
 				}
 			}
 		}
@@ -186,7 +206,7 @@ namespace Pokemon.UI
 
 		private void general()
 		{
-			Pokemon pkm = Game.Data.Player[Index];
+            Pokemon pkm = PokemonArray[Index];
 			_name.text = pkm.Name;
 			level.text = "Nv " + pkm.Level;
 			if (pkm.Item == null)
@@ -214,7 +234,7 @@ namespace Pokemon.UI
 
 		private void info()
 		{
-			Pokemon pkm = Game.Data.Player[Index];
+			Pokemon pkm = PokemonArray[Index];
 			number.text = pkm.Species.Num.ToString().PadLeft(3,'0');
 			species.text = pkm.Species.Name;
 			ot.text = Game.Data.Player.Name;
@@ -242,7 +262,7 @@ namespace Pokemon.UI
 
 		private void memo()
 		{
-			Pokemon pkm = Game.Data.Player[Index];
+			Pokemon pkm = PokemonArray[Index];
 			var time = pkm.TimeReceived;
 			string[] meses = {
 				"Enero","Febrero","Marzo","Abril","Mayo","Junio",
@@ -269,7 +289,7 @@ namespace Pokemon.UI
 
 		private void skills()
 		{
-			Pokemon pkm = Game.Data.Player[Index];
+			Pokemon pkm = PokemonArray[Index];
 			ability.text = pkm.Ability.Name;
 			description.text = pkm.Ability.Description;
 
@@ -296,7 +316,7 @@ namespace Pokemon.UI
 
 		private void moves()
 		{
-			Pokemon pkm = Game.Data.Player[Index];
+			Pokemon pkm = PokemonArray[Index];
 			for (int i = 0; i < 4; i++)
 			{
 				Data.MoveSlot mv = pkm.MoveSet[i];

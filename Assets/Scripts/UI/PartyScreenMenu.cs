@@ -50,6 +50,7 @@ namespace Pokemon.UI
 				case 0:
 					UI.Add("Summary Screen");
 					var summary = UI.Scene.GetComponent<SummaryScreen>();
+                    summary.Source = 0;
 					summary.Index = pokemon;
 					break;
 				case 1: (UI.Scene as PartyScreen).Swap(); break;

@@ -19,8 +19,9 @@ namespace Pokemon.UI
 
 		// Update is called once per frame
 		public override void update()
-		{
-			if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            Refresh();
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
 			{
 				if (y == -1) boxNum = (boxNum - 1 + Player.BoxNum) % Player.BoxNum;
 				else if (y < 2) x = (x + 5) % 6;
@@ -60,6 +61,21 @@ namespace Pokemon.UI
 				UI.Remove();
 			if (Input.GetKeyDown(KeyCode.S))
 				UI.Remove();
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                UI.Add("Summary Screen");
+                var summary = UI.Scene.GetComponent<SummaryScreen>();
+                if (x < 6)
+                {
+                    summary.Source = boxNum + 1;
+                    summary.Index = index;
+                }
+                else
+                {
+                    summary.Source = 0;
+                    summary.Index = index;
+                }
+            }
 
 		}
 
