@@ -93,6 +93,11 @@ namespace Pokemon
 					if (pc[i].Add(pkm)) break;
 			}
 		}
+        public Pokemon[] Party
+        {
+            get { return party.ToArray(); }
+            set { party = value.ToList(); }
+        }
 		public Box Box(int i) => pc[i];
 
 		[JsonProperty]

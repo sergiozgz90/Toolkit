@@ -30,6 +30,12 @@ namespace Pokemon
 			set { pokemon[index] = value; }
 		}
 
+        public Pokemon[] ArrayPokemon
+        {
+            get { return pokemon; }
+            set { pokemon = value; }
+        }
+
 		public bool Add(Pokemon pkm)
 		{
 			if (Count == Size) return false;
